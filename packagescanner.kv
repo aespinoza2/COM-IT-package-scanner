@@ -1,0 +1,68 @@
+<AppLayout>
+    canvas.before:
+        Color:
+            rgba: (0,0,0,0)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 1
+        size: (root.width - 300,root.height - 300)
+        pos: (150,150)
+        GridLayout:
+            cols: 2
+            Label:
+                text: "Tracking"
+                font_size: 15
+                size_hint: (.1, 0)
+            TextInput:
+                multiline: False
+                size_hint:  (.2, None)
+                height: 30
+            Label:
+                text: "Order"
+                font_size: 15
+                size_hint: (.1, 0)
+            TextInput:
+                multiline: False
+                size_hint:  (.2, None)
+                height: 30
+            Label:
+                text: "Ticket"
+                font_size: 15
+                size_hint: (.1, 0)
+            TextInput:
+                multiline: False
+                size_hint:  (.2, None)
+                height: 30
+            Label:
+                text: "Serial"
+                font_size: 15
+                size_hint: (.1, 0)
+            TextInput:
+                multiline: False
+                size_hint:  (.2, None)
+                height: 30
+            Label:
+                text: "MAC"
+                font_size: 15
+                size_hint: (.1, 0)
+            TextInput:
+                multiline: False
+                size_hint:  (.2, None)
+                height: 30
+            Label:
+                text: "Asset Tag"
+                font_size: 15
+                size_hint: (.1, 0)
+            TextInput:
+                multiline: False
+                size_hint:  (.2, None)
+                height: 30
+    Button:
+        text: "Check"
+        size_hint: (.5, None)
+        height: 30
+        pos: (root.width/2,200)
+
