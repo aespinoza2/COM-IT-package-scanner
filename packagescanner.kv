@@ -1,68 +1,1517 @@
-<AppLayout>
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+
+WindowManager:
+    transition: NoTransition()
+    LapWindow:
+    DeskWindow:
+    MonWindow:
+    KeyWindow:
+    DockWindow:
+    PrintWindow:
+    PackSlipScanWindow:
+    PackSlipReadWindow:
+
+<LapWindow>
+    name: "lapWin"
     canvas.before:
         Color:
-            rgba: (0,0,0,0)
+            rgba: 0,0,0,.8
         Rectangle:
             pos: self.pos
             size: self.size
+    canvas:
+        Color:
+            rgba: .7,0,0,1
+        Rectangle:
+            size: 45,self.height
+            pos: 0,0
 
-    GridLayout:
-        cols: 1
-        size: (root.width - 300,root.height - 300)
-        pos: (150,150)
-        GridLayout:
-            cols: 2
-            Label:
-                text: "Tracking"
-                font_size: 15
-                size_hint: (.1, 0)
-            TextInput:
-                multiline: False
-                size_hint:  (.2, None)
-                height: 30
-            Label:
-                text: "Order"
-                font_size: 15
-                size_hint: (.1, 0)
-            TextInput:
-                multiline: False
-                size_hint:  (.2, None)
-                height: 30
-            Label:
-                text: "Ticket"
-                font_size: 15
-                size_hint: (.1, 0)
-            TextInput:
-                multiline: False
-                size_hint:  (.2, None)
-                height: 30
-            Label:
-                text: "Serial"
-                font_size: 15
-                size_hint: (.1, 0)
-            TextInput:
-                multiline: False
-                size_hint:  (.2, None)
-                height: 30
-            Label:
-                text: "MAC"
-                font_size: 15
-                size_hint: (.1, 0)
-            TextInput:
-                multiline: False
-                size_hint:  (.2, None)
-                height: 30
-            Label:
-                text: "Asset Tag"
-                font_size: 15
-                size_hint: (.1, 0)
-            TextInput:
-                multiline: False
-                size_hint:  (.2, None)
-                height: 30
-    Button:
-        text: "Check"
-        size_hint: (.5, None)
-        height: 30
-        pos: (root.width/2,200)
+    FloatLayout:
+        MDIconButton:
+            icon: "laptop"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-40
+            on_release:
+                app.root.current = "lapWin"
+        MDIconButton:
+            icon: "monitor"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-75
+            on_release:
+                app.root.current = "monWin"
+        MDIconButton:
+            icon: "desktop-tower"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-110
+            on_release:
+                app.root.current = "deskWin"
+        MDIconButton:
+            icon: "keyboard-outline"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-145
+            on_release:
+                app.root.current = "keyWin"
+        MDIconButton:
+            icon: "dock-window"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-180
+            on_release:
+                app.root.current = "dockWin"
+        MDIconButton:
+            icon: "printer"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-215
+            on_release:
+                app.root.current = "printWin"
+        MDIconButton:
+            icon: "qrcode-scan"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-root.height
+            on_release:
+                app.root.current = "packSlipScanWin"
 
+        MDLabel:
+            text: "Laptop"
+            font_size: 12
+            size_hint_x: None
+            width: 40
+            color: 1,1,1,1
+            bold: "True"
+            pos_hint: {"center_x": .5, "center_y": .9}
+        MDLabel:
+            text: "Locate and Scan Package Barcodes"
+            font_size: 12
+            #bold: True
+            size_hint_x: None
+            width: 205
+            color: 1,1,1,1
+            pos_hint: {"center_x": .5, "center_y": .83}
+        MDLabel:
+            text: "Tracking"
+            font_size: 12
+            size_hint_x: None
+            width: 50
+            color: 1,1,1,1
+            pos_hint: {"center_x": .29, "center_y": .75}
+        MDTextField:
+            id: trackIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .75}
+            on_text:
+                app.macProcess()
+        MDLabel:
+            text: "Order"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .67}
+        MDTextField:
+            id: orderIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .67}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Ticket"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .59}
+        MDTextField:
+            id: ticketIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .59}
+            on_text:
+                app.macProcess()
+                app.comHelp()
+        MDLabel:
+            text: "Serial"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .51}
+        MDTextField:
+            id: serialIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .51}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "MAC"
+            font_size: 12
+            size_hint_x: None
+            width: 30
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .43}
+        MDTextField:
+            id: macIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .43}
+            on_text: app.macProcess()
+        MDTextField:
+            id: tagIn
+            text: "COM-"
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .34}
+            on_text: app.macProcess()
+        MDRaisedButton:
+            text: "New Item"
+            font_size: 12
+            pos_hint: {"center_x": .5, "center_y": .2}
+            md_bg_color:  .7,0,0,1
+            on_release:
+                trackIn.text = ''
+                orderIn.text = ''
+                ticketIn.text = ''
+                serialIn.text = ''
+                macIn.text = ''
+                tagIn.text = 'COM-'
+                app.root.current = "lapWin"
+
+<DeskWindow>
+    name: "deskWin"
+    canvas.before:
+        Color:
+            rgba: 0,0,0,.8
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    canvas:
+        Color:
+            rgba: .7,0,0,1
+        Rectangle:
+            size: 45,self.height
+            pos: 0,0
+
+    FloatLayout:
+        MDIconButton:
+            icon: "laptop"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-40
+            on_release:
+                app.root.current = "lapWin"
+        MDIconButton:
+            icon: "monitor"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-75
+            on_release:
+                app.root.current = "monWin"
+        MDIconButton:
+            icon: "desktop-tower"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-110
+            on_release:
+                app.root.current = "deskWin"
+        MDIconButton:
+            icon: "keyboard-outline"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-145
+            on_release:
+                app.root.current = "keyWin"
+        MDIconButton:
+            icon: "dock-window"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-180
+            on_release:
+                app.root.current = "dockWin"
+        MDIconButton:
+            icon: "printer"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-215
+            on_release:
+                app.root.current = "printWin"
+        MDIconButton:
+            icon: "qrcode-scan"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-root.height
+            on_release:
+                app.root.current = "packSlipScanWin"
+
+        MDLabel:
+            text: "Desktop"
+            font_size: 12
+            size_hint_x: None
+            width: 45
+            color: 1,1,1,1
+            bold: "True"
+            pos_hint: {"center_x": .5, "center_y": .9}
+        MDLabel:
+            text: "Locate and Scan Package Barcodes"
+            font_size: 12
+            #bold: True
+            size_hint_x: None
+            width: 205
+            color: 1,1,1,1
+            pos_hint: {"center_x": .5, "center_y": .83}
+        MDLabel:
+            text: "Tracking"
+            font_size: 12
+            size_hint_x: None
+            width: 50
+            color: 1,1,1,1
+            pos_hint: {"center_x": .29, "center_y": .75}
+        MDTextField:
+            id: trackIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .75}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Order"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .67}
+        MDTextField:
+            id: orderIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .67}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Ticket"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .59}
+        MDTextField:
+            id: ticketIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .59}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Serial"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .51}
+        MDTextField:
+            id: serialIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .51}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "MAC"
+            font_size: 12
+            size_hint_x: None
+            width: 30
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .43}
+        MDTextField:
+            id: macIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .43}
+            on_text: app.macProcess()
+        MDTextField:
+            id: tagIn
+            text: "COM-"
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .34}
+            on_text: app.macProcess()
+        MDRaisedButton:
+            text: "New Item"
+            font_size: 12
+            pos_hint: {"center_x": .5, "center_y": .2}
+            md_bg_color: .7,0,0,1
+            on_release:
+                trackIn.text = ''
+                orderIn.text = ''
+                ticketIn.text = ''
+                serialIn.text = ''
+                macIn.text = ''
+                tagIn.text = 'COM-'
+                app.root.current = "deskWin"
+
+<PrintWindow>
+    name: "printWin"
+    canvas.before:
+        Color:
+            rgba: 0,0,0,.8
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    canvas:
+        Color:
+            rgba: .7,0,0,1
+        Rectangle:
+            size: 45,self.height
+            pos: 0,0
+
+    FloatLayout:
+        MDIconButton:
+            icon: "laptop"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-40
+            on_release:
+                app.root.current = "lapWin"
+        MDIconButton:
+            icon: "monitor"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-75
+            on_release:
+                app.root.current = "monWin"
+        MDIconButton:
+            icon: "desktop-tower"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-110
+            on_release:
+                app.root.current = "deskWin"
+        MDIconButton:
+            icon: "keyboard-outline"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-145
+            on_release:
+                app.root.current = "keyWin"
+        MDIconButton:
+            icon: "dock-window"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-180
+            on_release:
+                app.root.current = "dockWin"
+        MDIconButton:
+            icon: "printer"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-215
+            on_release:
+                app.root.current = "printWin"
+        MDIconButton:
+            icon: "qrcode-scan"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-root.height
+            on_release:
+                app.root.current = "packSlipScanWin"
+
+        MDLabel:
+            text: "Printer"
+            font_size: 12
+            bold: "True"
+            size_hint_x: None
+            width: 40
+            color: 1,1,1,1
+            pos_hint: {"center_x": .5, "center_y": .9}
+        MDLabel:
+            text: "Locate and Scan Package Barcodes"
+            font_size: 12
+            #bold: True
+            size_hint_x: None
+            width: 205
+            color: 1,1,1,1
+            pos_hint: {"center_x": .5, "center_y": .83}
+        MDLabel:
+            text: "Tracking"
+            font_size: 12
+            size_hint_x: None
+            width: 50
+            color: 1,1,1,1
+            pos_hint: {"center_x": .29, "center_y": .75}
+        MDTextField:
+            id: trackIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .75}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Order"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .67}
+        MDTextField:
+            id: orderIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .67}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Ticket"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .59}
+        MDTextField:
+            id: ticketIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .59}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Serial"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .51}
+        MDTextField:
+            id: serialIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .51}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "MAC"
+            font_size: 12
+            size_hint_x: None
+            width: 30
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .43}
+        MDTextField:
+            id: macIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .43}
+            on_text: app.macProcess()
+        MDTextField:
+            id: tagIn
+            text: "COM-"
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .34}
+            on_text: app.macProcess()
+        MDRaisedButton:
+            text: "New Item"
+            font_size: 12
+            pos_hint: {"center_x": .5, "center_y": .2}
+            md_bg_color: .7,0,0,1
+            on_release:
+                trackIn.text = ''
+                orderIn.text = ''
+                ticketIn.text = ''
+                serialIn.text = ''
+                macIn.text = ''
+                tagIn.text = 'COM-'
+                app.root.current = "printWin"
+
+<DockWindow>
+    name: "dockWin"
+    canvas.before:
+        Color:
+            rgba: 0,0,0,.8
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    canvas:
+        Color:
+            rgba: .7,0,0,1
+        Rectangle:
+            size: 45,self.height
+            pos: 0,0
+
+    FloatLayout:
+        MDIconButton:
+            icon: "laptop"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-40
+            on_release:
+                app.root.current = "lapWin"
+        MDIconButton:
+            icon: "monitor"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-75
+            on_release:
+                app.root.current = "monWin"
+        MDIconButton:
+            icon: "desktop-tower"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-110
+            on_release:
+                app.root.current = "deskWin"
+        MDIconButton:
+            icon: "keyboard-outline"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-145
+            on_release:
+                app.root.current = "keyWin"
+        MDIconButton:
+            icon: "dock-window"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-180
+            on_release:
+                app.root.current = "dockWin"
+        MDIconButton:
+            icon: "printer"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-215
+            on_release:
+                app.root.current = "printWin"
+        MDIconButton:
+            icon: "qrcode-scan"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-root.height
+            on_release:
+                app.root.current = "packSlipScanWin"
+
+        MDLabel:
+            text: "Docking Station"
+            font_size: 12
+            bold: "True"
+            size_hint_x: None
+            width: 90
+            color: 1,1,1,1
+            pos_hint: {"center_x": .5, "center_y": .9}
+        MDLabel:
+            text: "Locate and Scan Package Barcodes"
+            font_size: 12
+            #bold: True
+            size_hint_x: None
+            width: 205
+            color: 1,1,1,1
+            pos_hint: {"center_x": .5, "center_y": .83}
+        MDLabel:
+            text: "Tracking"
+            font_size: 12
+            size_hint_x: None
+            width: 50
+            color: 1,1,1,1
+            pos_hint: {"center_x": .29, "center_y": .75}
+        MDTextField:
+            id: trackIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .75}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Order"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .67}
+        MDTextField:
+            id: orderIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .67}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Ticket"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .59}
+        MDTextField:
+            id: ticketIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .59}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Serial"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .51}
+        MDTextField:
+            id: serialIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .51}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "MAC"
+            font_size: 12
+            size_hint_x: None
+            width: 30
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .43}
+        MDTextField:
+            id: macIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .43}
+            on_text: app.macProcess()
+        MDTextField:
+            id: tagIn
+            text: "COM-"
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .34}
+            on_text: app.macProcess()
+        MDRaisedButton:
+            text: "New Item"
+            font_size: 12
+            pos_hint: {"center_x": .5, "center_y": .2}
+            md_bg_color: .7,0,0,1
+            on_release:
+                trackIn.text = ''
+                orderIn.text = ''
+                ticketIn.text = ''
+                serialIn.text = ''
+                macIn.text = ''
+                tagIn.text = 'COM-'
+                app.root.current = "dockWin"
+
+<KeyWindow>
+    name: "keyWin"
+    canvas.before:
+        Color:
+            rgba: 0,0,0,.8
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    canvas:
+        Color:
+            rgba: .7,0,0,1
+        Rectangle:
+            size: 45,self.height
+            pos: 0,0
+
+    FloatLayout:
+        MDIconButton:
+            icon: "laptop"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-40
+            on_release:
+                app.root.current = "lapWin"
+        MDIconButton:
+            icon: "monitor"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-75
+            on_release:
+                app.root.current = "monWin"
+        MDIconButton:
+            icon: "desktop-tower"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-110
+            on_release:
+                app.root.current = "deskWin"
+        MDIconButton:
+            icon: "keyboard-outline"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-145
+            on_release:
+                app.root.current = "keyWin"
+        MDIconButton:
+            icon: "dock-window"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-180
+            on_release:
+                app.root.current = "dockWin"
+        MDIconButton:
+            icon: "printer"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-215
+            on_release:
+                app.root.current = "printWin"
+        MDIconButton:
+            icon: "qrcode-scan"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-root.height
+            on_release:
+                app.root.current = "packSlipScanWin"
+
+        MDLabel:
+            text: "Keyboard/Mouse"
+            font_size: 12
+            bold: "True"
+            size_hint_x: None
+            width: 95
+            color: 1,1,1,1
+            pos_hint: {"center_x": .5, "center_y": .9}
+        MDLabel:
+            text: "Locate and Scan Package Barcodes"
+            font_size: 12
+            #bold: True
+            size_hint_x: None
+            width: 205
+            color: 1,1,1,1
+            pos_hint: {"center_x": .5, "center_y": .83}
+        MDLabel:
+            text: "Tracking"
+            font_size: 12
+            size_hint_x: None
+            width: 50
+            color: 1,1,1,1
+            pos_hint: {"center_x": .29, "center_y": .75}
+        MDTextField:
+            id: trackIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .75}
+            on_text: app.noMacProcess()
+        MDLabel:
+            text: "Order"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .67}
+        MDTextField:
+            id: orderIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .67}
+            on_text: app.noMacProcess()
+        MDLabel:
+            text: "Ticket"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .59}
+        MDTextField:
+            id: ticketIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .59}
+            on_text: app.noMacProcess()
+        MDLabel:
+            text: "Serial"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .51}
+        MDTextField:
+            id: serialIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .51}
+            on_text: app.noMacProcess()
+        MDTextField:
+            id: tagIn
+            text: "COM-"
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .43}
+            on_text: app.noMacProcess()
+        MDRaisedButton:
+            text: "New Item"
+            font_size: 12
+            pos_hint: {"center_x": .5, "center_y": .27}
+            md_bg_color:  (.7,0,0,1)
+            on_release:
+                trackIn.text = ''
+                orderIn.text = ''
+                ticketIn.text = ''
+                serialIn.text = ''
+                tagIn.text = 'COM-'
+                app.root.current = "keyWin"
+<MonWindow>
+    name: "monWin"
+    canvas.before:
+        Color:
+            rgba: 0,0,0,.8
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    canvas:
+        Color:
+            rgba: .7,0,0,1
+        Rectangle:
+            size: 45,self.height
+            pos: 0,0
+
+    FloatLayout:
+        MDIconButton:
+            icon: "laptop"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-40
+            on_release:
+                app.root.current = "lapWin"
+        MDIconButton:
+            icon: "monitor"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-75
+            on_release:
+                app.root.current = "monWin"
+        MDIconButton:
+            icon: "desktop-tower"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-110
+            on_release:
+                app.root.current = "deskWin"
+        MDIconButton:
+            icon: "keyboard-outline"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-145
+            on_release:
+                app.root.current = "keyWin"
+        MDIconButton:
+            icon: "dock-window"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-180
+            on_release:
+                app.root.current = "dockWin"
+        MDIconButton:
+            icon: "printer"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-215
+            on_release:
+                app.root.current = "printWin"
+        MDIconButton:
+            icon: "qrcode-scan"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-root.height
+            on_release:
+                app.root.current = "packSlipScanWin"
+
+        MDLabel:
+            text: "Monitor"
+            font_size: 12
+            bold: "True"
+            size_hint_x: None
+            width: 45
+            color: 1,1,1,1
+            pos_hint: {"center_x": .5, "center_y": .9}
+        MDLabel:
+            text: "Locate and Scan Package Barcodes"
+            font_size: 12
+            #bold: True
+            size_hint_x: None
+            width: 205
+            color: 1,1,1,1
+            pos_hint: {"center_x": .5, "center_y": .83}
+        MDLabel:
+            text: "Tracking"
+            font_size: 12
+            size_hint_x: None
+            width: 50
+            color: 1,1,1,1
+            pos_hint: {"center_x": .29, "center_y": .75}
+        MDTextField:
+            id: trackIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .75}
+            on_text: app.noMacProcess()
+        MDLabel:
+            text: "Order"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .67}
+        MDTextField:
+            id: orderIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .67}
+            on_text: app.noMacProcess()
+        MDLabel:
+            text: "Ticket"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .59}
+        MDTextField:
+            id: ticketIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .59}
+            on_text: app.noMacProcess()
+        MDLabel:
+            text: "Serial"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .51}
+        MDTextField:
+            id: serialIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .51}
+            on_text: app.noMacProcess()
+        MDTextField:
+            id: tagIn
+            text: "COM-"
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .43}
+            on_text: app.noMacProcess()
+        MDRaisedButton:
+            text: "New Item"
+            font_size: 12
+            pos_hint: {"center_x": .5, "center_y": .27}
+            md_bg_color:  (.7,0,0,1)
+            on_release:
+                trackIn.text = ''
+                orderIn.text = ''
+                ticketIn.text = ''
+                serialIn.text = ''
+                tagIn.text = 'COM-'
+                app.root.current = "monWin"
+<PackSlipScanWindow>
+    name: "packSlipScanWin"
+    canvas.before:
+        Color:
+            rgba: 0,0,0,.8
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    canvas:
+        Color:
+            rgba: .7,0,0,1
+        Rectangle:
+            size: 45,self.height
+            pos: 0,0
+
+    FloatLayout:
+        MDIconButton:
+            icon: "laptop"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-40
+            on_release:
+                app.root.current = "lapWin"
+        MDIconButton:
+            icon: "monitor"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-75
+            on_release:
+                app.root.current = "monWin"
+        MDIconButton:
+            icon: "desktop-tower"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-110
+            on_release:
+                app.root.current = "deskWin"
+        MDIconButton:
+            icon: "keyboard-outline"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-145
+            on_release:
+                app.root.current = "keyWin"
+        MDIconButton:
+            icon: "dock-window"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-180
+            on_release:
+                app.root.current = "dockWin"
+        MDIconButton:
+            icon: "printer"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-215
+            on_release:
+                app.root.current = "printWin"
+        MDIconButton:
+            icon: "qrcode-scan"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-root.height
+            on_release:
+                app.root.current = "packSlipScanWin"
+
+        MDLabel:
+            text: "Locate and Scan Packing Slip QR Code"
+            font_size: 12
+            size_hint_x: None
+            width: 250
+            color: 1,1,1,1
+            pos_hint: {"center_x": .5, "center_y": .68}
+        MDLabel:
+            text: "Pack Slip"
+            font_size: 12
+            size_hint_x: None
+            width: 50
+            color: 1,1,1,1
+            pos_hint: {"center_x": .29, "center_y": .59}
+        MDTextField:
+            id: slipAddress
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .59}
+        MDRaisedButton:
+            text: "New Item"
+            font_size: 12
+            increment_width: "200dp"
+            pos_hint: {"center_x": .75, "center_y": .6}
+            md_bg_color:  (.7,0,0,1)
+            on_release:
+                app.packSlip()
+                app.root.current = "packSlipReadWin"
+                slipAddress.text = ''
+<PackSlipReadWindow>
+    name: "packSlipReadWin"
+    canvas.before:
+        Color:
+            rgba: 0,0,0,.8
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    canvas:
+        Color:
+            rgba: .7,0,0,1
+        Rectangle:
+            size: 45,self.height
+            pos: 0,0
+
+    FloatLayout:
+        MDIconButton:
+            icon: "laptop"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-40
+            on_release:
+                app.root.current = "lapWin"
+        MDIconButton:
+            icon: "monitor"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-75
+            on_release:
+                app.root.current = "monWin"
+        MDIconButton:
+            icon: "desktop-tower"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-110
+            on_release:
+                app.root.current = "deskWin"
+        MDIconButton:
+            icon: "keyboard-outline"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-145
+            on_release:
+                app.root.current = "keyWin"
+        MDIconButton:
+            icon: "dock-window"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-180
+            on_release:
+                app.root.current = "dockWin"
+        MDIconButton:
+            icon: "printer"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-215
+            on_release:
+                app.root.current = "printWin"
+        MDIconButton:
+            icon: "qrcode-scan"
+            user_font_size: "20sp"
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            pos: 0,root.height-root.height
+            on_release:
+                app.root.current = "packSlipScanWin"
+
+        MDLabel:
+            id: itemDesc
+            font_size: 12
+            bold: "True"
+            size_hint_x: None
+            width: 100
+            color: 1,1,1,1
+            pos_hint: {"center_x": .53, "center_y": .9}
+        MDLabel:
+            text: "Packing Slip Information"
+            font_size: 12
+            #bold: True
+            size_hint_x: None
+            width: 140
+            color: 1,1,1,1
+            pos_hint: {"center_x": .5, "center_y": .83}
+        MDLabel:
+            text: "Tracking"
+            font_size: 12
+            size_hint_x: None
+            width: 50
+            color: 1,1,1,1
+            pos_hint: {"center_x": .29, "center_y": .75}
+        MDTextField:
+            id: trackIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .75}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Order"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .67}
+        MDTextField:
+            id: orderIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .67}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Ticket"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .59}
+        MDTextField:
+            id: ticketIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .59}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "Serial"
+            font_size: 12
+            size_hint_x: None
+            width: 35
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .51}
+        MDTextField:
+            id: serialIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .51}
+            on_text: app.macProcess()
+        MDLabel:
+            text: "MAC"
+            font_size: 12
+            size_hint_x: None
+            width: 30
+            color: 1,1,1,1
+            pos_hint: {"center_x": .3, "center_y": .43}
+        MDTextField:
+            id: macIn
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .43}
+            on_text: app.macProcess()
+        MDTextField:
+            id: tagIn
+            text: "COM-"
+            font_size: "12sp"
+            current_hint_text_color: 1, 1, 1, 1
+            line_color_normal: 1, 1, 1, 1
+            line_color_focus: 1, 1, 1, 1
+            multiline: False
+            size_hint_x: None
+            width: 300
+            pos_hint: {"center_x": .5, "center_y": .34}
+            on_text: app.macProcess()
+        MDRaisedButton:
+            text: "New Item"
+            font_size: 12
+            pos_hint: {"center_x": .5, "center_y": .2}
+            md_bg_color: .7,0,0,1
+            on_release:
+                trackIn.text = ''
+                orderIn.text = ''
+                ticketIn.text = ''
+                serialIn.text = ''
+                macIn.text = ''
+                tagIn.text = 'COM-'
+                app.root.current = "packSlipScanWin"
