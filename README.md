@@ -1,5 +1,4 @@
-# COM IT Package Scanner
+# com-it-package-scanner
 
-main.kv: this file contains all of the KivyMD object formatting.
-
-main.py: this file contains the classes and functions that call the objects from the KivyMD library.
+- main.kv: this file contains all of the KivyMD object formatting.
+- main.py: this file contains the classes and functions that call the objects from the KivyMD library.
